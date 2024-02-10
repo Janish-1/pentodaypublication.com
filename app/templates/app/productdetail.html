@@ -1,0 +1,75 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Product Detail{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-6 text-center">
+    <div class ="xzoom-container" >
+        <img src="{{product.product_imagemin1.url}}" class ="xzoom" xoriginal = "{{product.product_image1.url}}"style="height:400px;width:100%;">
+        <div class = "xzoom-thumbs">
+            <a href = "{{product.product_image1.url}}">
+                <img class = "xzoom-gallery"src = "{{product.product_imagemin1.url}}"
+                xpreview = "{{product.product_imagemin1.url}}">
+            </a>
+            <a href ="{{product.product_image2.url}}">
+                <img class = "xzoom-gallery"src = "{{product.product_imagemin2.url}}">
+            </a>
+            <a href = "{{product.product_image3.url}}">
+                <img class = "xzoom-gallery"src = "{{product.product_imagemin3.url}}">
+            </a>
+            <a href ="{{product.product_file.url}}">
+                <img class = "xzoom-gallery"src = "{{product.product_imagemin4.url}}">
+            </a>
+            </div>
+            </div>
+   <!-- <img src="{{product.product_image.url}}" alt="" class="img-fluid img-thumbnail"> -->
+  </div>
+ <div class="col-sm-5 offset-sm-1">
+   <h2>Book Title: {{product.title}}</h2>
+   <hr>
+   <p>{{product.description}}</p> <br>
+   <h4>Rs.{{product.discounted_price}}</h4><br>
+   {% if request.user.is_authenticated %}
+   {% if item_already_in_cart %}
+   <a href = "{% url 'showcart' %}" class = "btn btn-warning shadow px-5 py-2 ">Go To Cart</a>
+ 
+   {% else %}
+   <form action = "/add-to-cart" class="d-inline">
+    <input type = "hidden" name = "prod_id" value={{product.id}} id="prod_id">
+    <button type="submit" class = "btn btn-primary shadow px-5 py-2">Add To Cart</button>
+    </form>   
+    {% endif %}
+    {% endif %}
+    {% if not request.user.is_authenticated %}    
+       <form action = "/add-to-cart"  class = "d-inline">
+            <input type= "hidden" name = "prod-id" value = {{product.id}} id = "prod_id">
+            <button type = "submit" class = "btn btn-primary shadow px-5 py-2">Add To Cart</button>
+            </form>    
+   {% endif %}   
+    <a href = "{% url 'checkout' %}" class = "btn btn-danger shadow px-5 py-2 mt-1">Buy Now</a><br><br>
+   
+    <p>Share this product:</p>
+    <input type="text" value="{{ share_link }}" id="shareLink" readonly>
+    <button onclick="copyToClipboard()">Copy Link</button>
+
+    <script>
+        function copyToClipboard() {
+            var copyText = document.getElementById("shareLink");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Copied the link: " + copyText.value);
+        }
+    </script>
+   <h5 class="mt-5">Available Offers</h5>
+
+   <ul>
+    <li>Bank Offer 5% Unlimited Cashback on Flipkart Axis Bank Credit</li>
+    <li>Special Price Get extra ₹3000 off (price inclusive of discount)</li>
+    <li>No cost EMI ₹1,667/month. Standard EMI also available</li>
+    <li>Partner Offer ₹2000 Flipkart Gift Card on Every 1000th Transaction with a new Visa Debit/Credit Card</li>
+   </ul>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}             

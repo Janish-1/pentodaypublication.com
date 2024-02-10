@@ -1,0 +1,82 @@
+.owl-carousel .item{
+ /* border: 1px solid black; */
+ font-size: 20px;
+ text-align: center;
+ transition: 1s;
+ margin-top: 20px;
+ justify-content: center; /* Aligns horizontally */
+ align-items: center;
+}
+
+.owl-next{
+ float:right;
+}
+.owl-prev{
+ float:left;
+}
+.owl-prev span{
+ font-size: 24px;
+ font-weight: bold;
+}
+.owl-next span{
+ font-size: 24px;
+ font-weight: bold;
+}
+
+.item img:hover{
+    transform:scale(1.1);
+    z-index:2;
+}
+
+
+.owl-carousel .item img:hover{
+    transform:scale(1.1);
+    z-index:2;
+}
+
+.xzoom-thumbs img {
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+    border: 1px solid #ccc;
+}
+
+.xzoom-thumbs a {
+    text-decoration: none;
+}
+
+.xzoom-preview {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 20px 2px rgba(0, 0, 0, 0.2);
+}
+
+.active {
+    border: 1px solid #4aaad2;
+    box-shadow: 0 0 3px 0 #4aaad2;
+}
+
+.xzoom-container {
+    position: relative;
+}
+.xzoom {
+    transition: transform 0.5s ease;
+    /* Smooth transition for zoom effect */
+    display: block;
+    /* To prevent default image inline spacing */
+}
+
+.xzoom:hover {
+    transform: scale(1.2);
+    /* Adjust scale value for desired zoom level */
+}
+
+.xzoom-thumbs { 
+    margin-top: 12px;
+ }
+
+.xzoom-gallery {
+    /* Styles for thumbnails */
+    cursor: pointer;
+    /* To indicate these are clickable/hoverable */
+}
+
