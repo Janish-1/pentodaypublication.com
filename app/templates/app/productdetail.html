@@ -49,9 +49,8 @@
    {% endif %}   
     <a href = "{% url 'checkout' %}" class = "btn btn-danger shadow px-5 py-2 mt-1">Buy Now</a><br><br>
    
-    <p>Share this product:</p>
     <input type="text" value="{{ share_link }}" id="shareLink" readonly>
-    <button onclick="copyToClipboard()">Copy Link</button>
+    <button class = "btn btn-primary shadow px-5 py-2 mt-2" onclick="copyToClipboard()">Share</button>
 
     <script>
         function copyToClipboard() {

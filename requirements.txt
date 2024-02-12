@@ -1,3 +1,4 @@
 django
 Pillow
 whitenoise
+firebase_admin

@@ -52,7 +52,13 @@
  <!-- Slider 1 -->
  <!-- <div class="owl-carousel" id="slider1"> -->
 
-  <a href="{% url 'product-detail' p.id %}" class="btn"><div class="item"><img src="{{p.product_image1.url}}" alt="" height="400px"><span class="fw-bold"style="margin: 9px;">{{p.title}}</span><br><span class="fs-5"style="margin-right:150px">Rs.{{p.discounted_price}}</span></div></a>
+  <a href="{% url 'product-detail' p.id %}" class="btn" style="display: flex; flex-direction: row; align-items: center; text-align: center; text-decoration: none; margin-left:30%">
+    <img src="{{p.product_image1.url}}" alt="" height="400px" style="margin-left: 10%;">
+    <div class="item" style="text-align: left; margin-left: 20px;">
+      <span class="fw-bold">{{p.title}}</span><br>
+      <span class="fs-5" style="margin-right: 150px;">Rs.{{p.discounted_price}}</span>
+    </div>
+  </a>
   
  <!-- </div> -->
 </div>
