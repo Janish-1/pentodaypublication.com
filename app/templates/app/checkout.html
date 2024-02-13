@@ -4,10 +4,10 @@
 {% block main-content %}
 <div class="container">
   <div class="row mt-5">
-  <div class="col-sm-6">
-    <h4>Order Summary</h4>
-    <hr>
-    {% for item in cart_items %}
+    <div class="col-sm-6">
+      <h4>Order Summary</h4>
+      <hr>
+      {% for item in cart_items %}
       <div class="card mb-2">
         <div class="card-body">
           <h5>Book:{{item.product.title}}</h5>
@@ -15,53 +15,57 @@
           <p class="fw-bold">Price:{{item.total_cost}}</p>
         </div>
       </div>
-    {% endfor %}
-    <p class = "fw-bold">Total Cost + Rs.70 = {{totalamount}}</p>
-    
-    <small>
-      <strong>Terms and Conditions:</strong> By proceeding with the checkout, you agree to the following terms and conditions:
-      <ul>
+      {% endfor %}
+      <p class="fw-bold">Total Cost + Rs.70 = {{totalamount}}</p>
+
+      <small>
+        <strong>Terms and Conditions:</strong> By proceeding with the checkout, you agree to the following terms and
+        conditions:
+        <ul>
           <li><em>Payment:</em> Payment must be made in full before the book is dispatched.</li>
-          <li><em>Shipping:</em> We strive to deliver your book promptly. However, delivery times may vary based on your location.</li>
-          <li><em>Returns:</em> If you receive a damaged or incorrect book, please contact us within 7 days of receiving the order for assistance.</li>
-          <li><em>Privacy:</em> We respect your privacy. Your personal information will be used only for order processing and will not be shared with third parties.</li>
-          <li><em>Refunds:</em> Refunds will be issued in accordance with our refund policy. Please review our refund policy for more details.</li>
-          <li><em>Availability:</em> Book availability is subject to change. If a book becomes unavailable, we will notify you and provide alternative options or a refund.</li>
-      </ul>
-      Thank you for choosing our bookstore!
-  </small>
+          <li><em>Shipping:</em> We strive to deliver your book promptly. However, delivery times may vary based on your
+            location.</li>
+          <li><em>Returns:</em> If you receive a damaged or incorrect book, please contact us within 7 days of receiving
+            the order for assistance.</li>
+          <li><em>Privacy:</em> We respect your privacy. Your personal information will be used only for order
+            processing and will not be shared with third parties.</li>
+          <li><em>Refunds:</em> Refunds will be issued in accordance with our refund policy. Please review our refund
+            policy for more details.</li>
+          <li><em>Availability:</em> Book availability is subject to change. If a book becomes unavailable, we will
+            notify you and provide alternative options or a refund.</li>
+        </ul>
+        Thank you for choosing our bookstore!
+      </small>
     </div>
-  <div class="col-sm-4 offset-sm-1">
-    <h4>Select Shipping Address</h4>
-     <hr> 
-    <form action="/paymentdone">
+    <div class="col-sm-4 offset-sm-1">
+      <h4>Select Shipping Address</h4>
+      <hr>
       {% if add %}
-    {% for ad in add %}
-      <div class="card">
-        <div class="card-body">
-        <h5>{{ad.name}}</h5>
-        <p>{{ad.locality}},{{ad.city}},{{ad.state}}-{{ad.zipcode}}</p>
+      <form action="/paymentdone">
+        {% for ad in add %}
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ad.name}}</h5>
+            <p>{{ad.locality}},{{ad.city}},{{ad.state}}-{{ad.zipcode}}</p>
+          </div>
         </div>
-      </div>
         <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio"name="custid" id= "custadd{{forloop.counter}}" value="{{totalamount}}">
+          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
           <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
-            Address: {{forloop.counter}} </label>
+            Address: {{forloop.counter}}
+          </label>
         </div>
         {% endfor %}
-        {% else %}
-        <h2> please update profile to select shipping address</h2>
-        {% endif %}
-          <div class="text-end">
-            <div id="paypal-button-container"></div>
 
-        
-           </div>
-      
-           <!-- <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button> -->
-       
+        {% if radio_button_selected %}
+        <div id="pay-buttons" class="text-end">
+          <div id="paypal-button-container"></div>
+        </div>
+        {% else %}
+        <h2 id="update-profile-message">Please update profile to select a shipping address</h2>
+        {% endif %}
       </form>
-   
+      {% endif %}
     </div>
   </div>
 </div>
@@ -69,64 +73,84 @@
 {% block payment-gateway %}
 <script src="https://www.paypal.com/sdk/js?client-id=AdtjKjaKCXhtpQyCGBYQXa_xQ3c2pEtrejtILQie
 T2qtqbHXi9_kpmVRMPUwYtti5JmxSSwbO2MkrTCQ"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  // Render the PayPal button into #paypal-button-container
+  paypal.Buttons({
 
-    <script>
-        // Render the PayPal button into #paypal-button-container
-        paypal.Buttons({
+    // Call your server to set up the transaction
+    createOrder: function (data, actions) {
+      return fetch('/demo/checkout/api/paypal/order/create/', {
+        method: 'post'
+      }).then(function (res) {
+        return res.json();
+      }).then(function (orderData) {
+        return orderData.id;
+      });
+    },
 
-            // Call your server to set up the transaction
-            createOrder: function(data, actions) {
-                return fetch('/demo/checkout/api/paypal/order/create/', {
-                    method: 'post'
-                }).then(function(res) {
-                    return res.json();
-                }).then(function(orderData) {
-                    return orderData.id;
-                });
-            },
+    // Call your server to finalize the transaction
+    onApprove: function (data, actions) {
+      return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
+        method: 'post'
+      }).then(function (res) {
+        return res.json();
+      }).then(function (orderData) {
+        // Three cases to handle:
+        //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+        //   (2) Other non-recoverable errors -> Show a failure message
+        //   (3) Successful transaction -> Show confirmation or thank you
 
-            // Call your server to finalize the transaction
-            onApprove: function(data, actions) {
-                return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
-                    method: 'post'
-                }).then(function(res) {
-                    return res.json();
-                }).then(function(orderData) {
-                    // Three cases to handle:
-                    //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-                    //   (2) Other non-recoverable errors -> Show a failure message
-                    //   (3) Successful transaction -> Show confirmation or thank you
+        // This example reads a v2/checkout/orders capture response, propagated from the server
+        // You could use a different API or structure for your 'orderData'
+        var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
 
-                    // This example reads a v2/checkout/orders capture response, propagated from the server
-                    // You could use a different API or structure for your 'orderData'
-                    var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+        if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+          return actions.restart(); // Recoverable state, per:
+          // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+        }
 
-                    if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-                        return actions.restart(); // Recoverable state, per:
-                        // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
-                    }
+        if (errorDetail) {
+          var msg = 'Sorry, your transaction could not be processed.';
+          if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+          if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+          return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+        }
 
-                    if (errorDetail) {
-                        var msg = 'Sorry, your transaction could not be processed.';
-                        if (errorDetail.description) msg += '\n\n' + errorDetail.description;
-                        if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
-                        return alert(msg); // Show a failure message (try to avoid alerts in production environments)
-                    }
+        // Successful capture! For demo purposes:
+        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+        var transaction = orderData.purchase_units[0].payments.captures[0];
+        alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
 
-                    // Successful capture! For demo purposes:
-                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                    var transaction = orderData.purchase_units[0].payments.captures[0];
-                    alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+        // Replace the above to show a success message within this page, e.g.
+        // const element = document.getElementById('paypal-button-container');
+        // element.innerHTML = '';
+        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+        // Or go to another URL:  actions.redirect('thank_you.html');
+      });
+    }
 
-                    // Replace the above to show a success message within this page, e.g.
-                    // const element = document.getElementById('paypal-button-container');
-                    // element.innerHTML = '';
-                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                    // Or go to another URL:  actions.redirect('thank_you.html');
-                });
-            }
-
-        }).render('#paypal-button-container');
-    </script>
+  }).render('#paypal-button-container');
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  $('input[name="custid"]').on('change', function () {
+    // Check if any radio button with the name "custid" is checked
+    var radio_button_selected = $('input[name="custid"]:checked').length > 0;
+    
+    // Toggle the visibility of the message and PayPal container based on the radio button selection
+    if (radio_button_selected) {
+      // Hide the message
+      $('#update-profile-message').hide();
+      // Show the PayPal container
+      $('#pay-buttons').parent().show();
+    } else {
+      // Show the message
+      $('#update-profile-message').show();
+      // Hide the PayPal container
+      $('#pay-buttons').parent().hide();
+    }
+  });
+});
+</script>
 {% endblock payment-gateway %}
-
