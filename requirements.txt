@@ -1,3 +1,7 @@
-django
-Pillow
-whitenoise
+asgiref==3.8.1
+Django==5.0.3
+gunicorn==21.2.0
+packaging==24.0
+pillow==10.3.0
+sqlparse==0.4.4
+whitenoise==6.6.0

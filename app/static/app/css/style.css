@@ -1,37 +1,55 @@
-.owl-carousel .item{
- /* border: 1px solid black; */
- font-size: 20px;
- text-align: center;
- transition: 1s;
- margin-top: 20px;
- justify-content: center; /* Aligns horizontally */
- align-items: center;
+.owl-carousel .item {
+    /* border: 1px solid black; */
+    font-size: 20px;
+    text-align: center;
+    transition: 1s;
+    margin-top: 20px;
+    justify-content: center;
+    /* Aligns horizontally */
+    align-items: center;
 }
-
-.owl-next{
- float:right;
-}
-.owl-prev{
- float:left;
-}
-.owl-prev span{
- font-size: 24px;
- font-weight: bold;
-}
-.owl-next span{
- font-size: 24px;
- font-weight: bold;
-}
-
-.item img:hover{
-    transform:scale(1.1);
-    z-index:2;
+body {
+        font-family: "Protest Revolution", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+          
+      }
+#abcd{
+    display: flex;
 }
 
 
-.owl-carousel .item img:hover{
-    transform:scale(1.1);
-    z-index:2;
+#tsm{
+    z-index:1000;
+}
+      
+.owl-next {
+    float: right;
+}
+
+.owl-prev {
+    float: left;
+}
+
+.owl-prev span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.owl-next span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.item img:hover {
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+
+.owl-carousel .item img:hover {
+    transform: scale(1.1);
+    z-index: 2;
 }
 
 .xzoom-thumbs img {
@@ -45,19 +63,65 @@
     text-decoration: none;
 }
 
+.bg-danger {
+    background-color: #fc6715 !important;
+    border-radius: 150px !important;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.owl-carousel .owl-item img {
+    display: block;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fc6715;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .25s ease-in-out, background-color .25s ease-in-out, border-color .25s ease-in-out, box-shadow .25s ease-in-out
+}
+
+.btn-warning {
+    color: #000;
+    /* background-color: #ffc107; */
+    border: none;
+    border-color: #ffc107;
+    padding: .375rem .75rem;
+    border-radius: 5px;
+}
+
 .xzoom-preview {
     border: 1px solid #e0e0e0;
     box-shadow: 0 4px 20px 2px rgba(0, 0, 0, 0.2);
 }
 
 .active {
-    border: 1px solid #4aaad2;
-    box-shadow: 0 0 3px 0 #4aaad2;
+    /* border: 1px solid #ff9100 !important; */
+    /* box-shadow: 0 0 3px 0 #fdfcfc !important; */
+    /* box-shadow: rgb(160, 6, 6) 0px 19px 38px, rgb(243, 6, 6) 0px 15px 12px; */
+    /* box-shadow: rgba(253, 99, 9, 0.945) 0px 19px 38px, rgba(248, 88, 14, 0.919) 0px 15px 12px; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .xzoom-container {
     position: relative;
 }
+
 .xzoom {
     transition: transform 0.5s ease;
     /* Smooth transition for zoom effect */
@@ -67,12 +131,13 @@
 
 .xzoom:hover {
     transform: scale(1.2);
+    border-radius: 50px;
     /* Adjust scale value for desired zoom level */
 }
 
-.xzoom-thumbs { 
+.xzoom-thumbs {
     margin-top: 12px;
- }
+}
 
 .xzoom-gallery {
     /* Styles for thumbnails */
@@ -80,3 +145,27 @@
     /* To indicate these are clickable/hoverable */
 }
 
+.card-body {
+    height: 100px;
+    width: 100px;
+    margin: auto !important;
+    
+}
+
+.card {
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    /* background-color: #a42828; */
+    background-clip: border-box;
+    /* border: 1px solid rgba(0, 0, 0, .125); */
+    border-radius: 5.25rem
+}
+
+img,
+svg {
+    vertical-align: middle;
+    /* border-radius: 30px; */
+}
